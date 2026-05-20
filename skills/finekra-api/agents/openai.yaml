@@ -1,0 +1,4 @@
+interface:
+  display_name: "Finekra API"
+  short_description: "Use Finekra API docs, VPN, server 58, and Elastic logs."
+  default_prompt: "Use the Finekra API skill. Read the relevant reference, connect Finekra VPN if needed, then prepare API calls or investigate Elastic logs."

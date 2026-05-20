@@ -1,0 +1,30 @@
+# Secrets and local credential stores
+secrets/
+*.secret.*
+*.local.json
+*.env
+.env
+secrets.env
+secrets.ps1
+
+# Runtime outputs
+outputs/
+logs/
+*.log
+*.tmp
+_restore-test/
+
+# Vaultwarden runtime data
+vaultwarden/
+vw-data/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Do not commit downloaded account exports
+HESAP*
+*BILGI*
+*BİLGİ*
