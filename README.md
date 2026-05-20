@@ -46,6 +46,7 @@ C:\Users\EmircanÇağın\Documents\Projects\finekra-codex-workflows
 The restore script copies:
 
 - `skills/*` to `%USERPROFILE%\.codex\skills\`
+- `skills/*` to the project-local `.codex\skills\` folder used by visible BAT runners
 - `AGENTS.md` to `%USERPROFILE%\.codex\AGENTS.md`, after creating a timestamped backup if it exists
 - runner scripts to `C:\Users\EmircanÇağın\Documents\Projects\finekra-api-work\scripts\`
 

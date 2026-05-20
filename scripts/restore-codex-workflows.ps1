@@ -18,6 +18,7 @@ New-Item -ItemType Directory -Force -Path $CodexHome | Out-Null
 New-Item -ItemType Directory -Force -Path (Join-Path $CodexHome "skills") | Out-Null
 New-Item -ItemType Directory -Force -Path $ProjectRoot | Out-Null
 New-Item -ItemType Directory -Force -Path (Join-Path $ProjectRoot "scripts") | Out-Null
+New-Item -ItemType Directory -Force -Path (Join-Path $ProjectRoot ".codex\skills") | Out-Null
 
 Get-ChildItem -LiteralPath $skillsSource -Directory | ForEach-Object {
     $target = Join-Path (Join-Path $CodexHome "skills") $_.Name
@@ -25,6 +26,12 @@ Get-ChildItem -LiteralPath $skillsSource -Directory | ForEach-Object {
         Remove-Item -LiteralPath $target -Recurse -Force
     }
     Copy-Item -LiteralPath $_.FullName -Destination $target -Recurse -Force
+
+    $projectSkillTarget = Join-Path (Join-Path $ProjectRoot ".codex\skills") $_.Name
+    if (Test-Path -LiteralPath $projectSkillTarget) {
+        Remove-Item -LiteralPath $projectSkillTarget -Recurse -Force
+    }
+    Copy-Item -LiteralPath $_.FullName -Destination $projectSkillTarget -Recurse -Force
 }
 
 if (Test-Path -LiteralPath $agentsSource) {
@@ -58,6 +65,7 @@ foreach ($name in $runnerNames) {
     codexHome = $CodexHome
     projectRoot = $ProjectRoot
     skillsRestored = (Get-ChildItem -LiteralPath (Join-Path $CodexHome "skills") -Directory | Select-Object -ExpandProperty Name)
+    projectSkillsRestored = (Get-ChildItem -LiteralPath (Join-Path $ProjectRoot ".codex\skills") -Directory | Select-Object -ExpandProperty Name)
     agentsRestored = (Test-Path -LiteralPath (Join-Path $CodexHome "AGENTS.md"))
     note = "Secrets, .env files, Vaultwarden data, and outputs were not copied."
 } | ConvertTo-Json -Depth 4

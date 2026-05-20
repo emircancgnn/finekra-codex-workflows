@@ -14,13 +14,21 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\restore-codex-work
 
 1. Put credentials back into Vaultwarden/Bitwarden or local secure stores.
 2. Do not write raw credentials into `AGENTS.md`, skills, scripts, or git.
-3. Verify network workflow:
+3. Prefer these Vaultwarden items:
+
+- `Server 58 - emircancagin`
+- `Finekra VPN - polynom.usr09`
+- `Finekra SQL Read - 172.16.220.50`
+- `Elastic - 172.16.220.59`
+- `Finekra ManualProcess API - finekra-api@emircan.com` with custom field `tenantCode`
+
+4. Verify network workflow:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File "$HOME\.codex\skills\finekra-api\scripts\verify-finekra-network.ps1"
 ```
 
-4. If visible BAT runners need credentials:
+5. If Vaultwarden is unavailable and visible BAT runners need local fallback credentials:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\EmircanÇağın\Documents\Projects\finekra-api-work\scripts\setup-manual-process-credentials.ps1"

@@ -68,6 +68,11 @@ Start-Process -FilePath "cmd.exe" -ArgumentList @("/c","start",'"DailyAccountTra
 
 - Open a visible terminal window so the user can watch the preview and type `YES`.
 - Do not run these production operations silently unless the user explicitly asks for background execution.
+- Credential priority is Vaultwarden first, encrypted local fallback second.
+- Expected Vaultwarden items:
+  - `Server 58 - emircancagin` for SSH to server 58.
+  - `Finekra ManualProcess API - finekra-api@emircan.com` for ManualProcess API login.
+- The ManualProcess API vault item should use login username/password and include a custom field named `tenantCode`.
 - After the user runs it, inspect the newest JSON under the relevant `outputs\...` folder when they ask for results.
 - Results directories:
   - `outputs\manual-process`
@@ -82,7 +87,7 @@ If `C:\Users\EmircanÇağın\Documents\Projects\finekra-api-work` is missing, re
 powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Users\EmircanÇağın\.codex\skills\finekra-api\scripts\restore-finekra-runners.ps1"
 ```
 
-After restore, if `secrets\manual-process.local.json` is missing, run:
+After restore, prefer Vaultwarden items above. If Vaultwarden is unavailable and `secrets\manual-process.local.json` is missing, run:
 
 ```powershell
 C:\Users\EmircanÇağın\Documents\Projects\finekra-api-work\scripts\setup-manual-process-credentials.bat
