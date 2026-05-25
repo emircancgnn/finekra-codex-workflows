@@ -67,8 +67,11 @@ Start-Process -FilePath "cmd.exe" -ArgumentList @("/c","start",'"DailyAccountTra
 ## Execution Behavior
 
 - Open a visible terminal window so the user can watch the preview and type `YES`.
+- After `YES`, visible runners must print live progress for every request, including current index, total count, date/range, endpoint action, and final `OK` or error status. Do not leave the screen silent during long daily runs.
 - Do not run these production operations silently unless the user explicitly asks for background execution.
-- Credential priority is Vaultwarden first, encrypted local fallback second.
+- ManualProcess visible runners must not prompt for Vaultwarden master password during normal use. Use the encrypted local credential file first; only run setup/credential repair when that file is missing or invalid.
+- GetFromBank visible runners must not prompt for Vaultwarden master password during normal use. Use the encrypted local credential file, execute through server `172.16.220.58`, split ranges into daily requests, and print `START`, `OK`, `ERROR`, `WAIT`, and final summary lines live in the visible terminal.
+- Credential priority for visible runners is encrypted local credential file first. Do not use Vaultwarden in the hot path unless the user explicitly asks to reconfigure credentials.
 - Expected Vaultwarden items:
   - `Server 58 - emircancagin` for SSH to server 58.
   - `Finekra ManualProcess API - finekra-api@emircan.com` for ManualProcess API login.

@@ -142,8 +142,11 @@ $remoteScript = @"
 
 `$results = @()
 `$index = 0
+`$total = `$payload.requests.Count
 foreach (`$req in `$payload.requests) {
     `$index++
+    `$label = "[`$index/`$total] `$(`$req.startDate) - `$(`$req.endDate)"
+    Write-Output "START `$label"
     `$body = @{
         startDate = `$req.startDate
         endDate = `$req.endDate
@@ -160,6 +163,7 @@ foreach (`$req in `$payload.requests) {
             durationSeconds = [Math]::Round(((Get-Date) - `$startedAt).TotalSeconds, 3)
             response = `$response
         }
+        Write-Output "OK    `$label durationSeconds=`$([Math]::Round(((Get-Date) - `$startedAt).TotalSeconds, 3))"
     } catch {
         `$statusCode = `$null
         if (`$_.Exception.Response -and `$_.Exception.Response.StatusCode) {
@@ -174,17 +178,21 @@ foreach (`$req in `$payload.requests) {
             statusCode = `$statusCode
             error = `$_.Exception.Message
         }
+        Write-Output "ERROR `$label statusCode=`$statusCode error=`$(`$_.Exception.Message)"
     }
     if (`$payload.delaySeconds -gt 0 -and `$index -lt `$payload.requests.Count) {
+        Write-Output "WAIT  `$payload.delaySeconds seconds"
         Start-Sleep -Seconds `$payload.delaySeconds
     }
 }
 
+Write-Output "SUMMARY_JSON_BEGIN"
 [ordered]@{
     remoteHost = `$env:COMPUTERNAME
     requestCount = `$payload.requests.Count
     results = `$results
 } | ConvertTo-Json -Depth 30
+Write-Output "SUMMARY_JSON_END"
 "@
 
 Import-Module Posh-SSH

@@ -31,3 +31,28 @@ Use this workflow for POS report manual pulls by `bankInfoId` and date range.
 The final argument is delay seconds between daily requests. If omitted, the default is 3 seconds.
 
 The runner previews requests first and only executes when the user types `YES`.
+
+## Required Visible Behavior
+
+- The normal `.bat` execution path must not use Vaultwarden and must never ask for a Vaultwarden master password.
+- Load server 58 SSH credentials from the encrypted local credential file:
+
+```text
+secrets\manual-process.local.json
+```
+
+- Execute GetFromBank requests through server `172.16.220.58`.
+- Split date ranges into daily requests.
+- After the user types `YES`, print live progress in the visible terminal for each day:
+
+```text
+START [1/14] 2026-05-12
+OK    [1/14] 2026-05-12
+WAIT  3 seconds
+START [2/14] 2026-05-13
+ERROR [2/14] 2026-05-13
+Summary: OK=... ERROR=... TOTAL=...
+```
+
+- Save output under `outputs\getfrombank`.
+- Do not buffer all request output until the end; the user must be able to see day-by-day progress while the `.bat` is running.

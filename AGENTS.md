@@ -25,6 +25,15 @@
 - Show method, URL, headers, and body before execution unless the user explicitly asks to run immediately.
 - Ask for confirmation before production side effects such as creating records, updating records, initiating payments, or changing financial state.
 
+## GetFromBank Runner Workflow
+
+- For GetFromBank `.bat` runners, do not ask for Vaultwarden master password.
+- Use the encrypted local credential file for server 58 access during normal runner execution.
+- Execute GetFromBank requests through server `172.16.220.58`.
+- Split date ranges into daily requests.
+- Keep the visible terminal open and print live `START`, `OK`, `ERROR`, `WAIT`, and final summary lines for every daily request.
+- Save GetFromBank outputs under `outputs\getfrombank`.
+
 ## Elastic/Kibana Workflow
 
 - Use Kibana at `http://172.16.220.59:5601/`.
